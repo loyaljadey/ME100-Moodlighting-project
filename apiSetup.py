@@ -2,8 +2,7 @@
 ##source and reference off of https://www.dataquest.io/blog/python-api-tutorial/
 
 ##author: Michael Jia 
-#         Mechanical Engineering 2024 
-#         3035673003
+#         Mechanical Engineering 2024
 
 ##IMPORTS##
 
