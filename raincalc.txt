@@ -1,0 +1,27 @@
+the rain drop calculations
+
+we need to calculate the time intervals for the same difference travelled for the light.
+the governing equation is d = 0.5 * g * t^2
+
+we can use an the equations to generate a series of times and find the time intervals from that array.
+we can set the time interval to the sleep time that between switching the light on and off
+
+the distance between the lights are 13mm
+
+d = [0.013, 0.026, .....]
+
+#referenced off of https://stackoverflow.com/questions/8244915/how-do-you-divide-each-element-in-a-list-by-an-int/8247234
+divisor = 0.5*g
+t = [x/divisor for x in d]
+
+does the square rooting
+#referenced off of https://stackoverflow.com/questions/48827130/list-of-integer-square-roots-python
+# Change this list for testing
+terms = [1,2,3,4,5,6,7,9,10,11,12,13,16,24,36]
+all_roots = []  #list to hold all square roots from terms list
+for i in terms:
+    all_roots.append(math.sqrt(i))
+
+
+
+deltaT = 
