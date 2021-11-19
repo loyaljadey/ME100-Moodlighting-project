@@ -5,6 +5,7 @@
 #         Mechanical Engineering 2024
 
 ##IMPORTS##
+
 import machine
 ##must import neopixel in python via
 ##run the following command in the terminal
@@ -26,6 +27,9 @@ pin = 27
 
 #creating a neopixel object to use the PWM signal to power the lights
 pixels = neopixel.NeoPixel(machine.Pin(pin), LED_count)
+
+
+##FUNCTIONS/METHODS##
 
 ##method for clearing all the leds
 # param: none
@@ -83,7 +87,6 @@ def rainHelper(length):
     print(len(deltaT))
 
     return deltaT
-
 
 ##method for doing the rain animation of a water drop dropping down
 # math and physics calculations can be found on raincalc.txt
@@ -149,7 +152,6 @@ def showAllColors():
         pixels[i+2] = (0, 0, 255)
         pixels.write()
         time.sleep(0.5)
-        
 
 ##main method
 # param: none
@@ -163,6 +165,9 @@ def main():
     #showAllColors()
     #rainHelper(LED_count)
     rainyDay(0,50,"day","slow")
+
+
+##RUNTIME EXECUTIONS##
 
 if __name__ == "__main__":
     main()
