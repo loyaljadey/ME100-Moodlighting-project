@@ -62,8 +62,10 @@ def rainHelper(length):
     #d = 0.5*g*t^2
     #generates the distances of the leds from the start (start is y = 0 meters)
     d = []
-    for i in range(length):
+    for i in range(length+1):
         d.append(LED_distance*i)
+
+    print(len(d))
     
     #generates the times for the particle to travel the distances
     t = []
@@ -71,10 +73,14 @@ def rainHelper(length):
     for i in [x/divisor for x in d]:
         t.append(math.sqrt(i))
 
+    print(len(t))
+
     #generates the time intervals for the particle to travel in between the leds
     deltaT = []
     for i in range(len(t)-1):
         deltaT.append(t[i+1]-t[i])
+
+    print(len(deltaT))
 
     return deltaT
 
@@ -88,24 +94,42 @@ def rainHelper(length):
 # start is the start number of the led
 # end is the end number of the led
 # timeofday tells what time of the day it is
-def rainyDay(start, end, timeofday):
+def rainyDay(start, end, timeofday, speed):
     timeInterval = rainHelper(end-start)
-    if(timeofday == "day" or timeofday == "Day"):
-        for i in range(start, LED_count+end, 1):
-            #blue light for the rain drop
-            pixels[i] = (0,0,255)
-            pixels.write()
-            time.sleep(timeInterval[i])
-            pixels[i] = (0,0,0)
-            pixels.write()
+    if(speed == "slow" or speed == "Slow"):
+        if(timeofday == "day" or timeofday == "Day"):
+            for i in range(start, end):
+                #blue light for the rain drop
+                pixels[i] = (0,0,255)
+                pixels.write()
+                time.sleep(timeInterval[i]*20)
+                pixels[i] = (0,0,0)
+                pixels.write()
+        else:
+            for i in range(start, end):
+                #blue light for the rain drop
+                pixels[i] = (0,0,255)
+                pixels.write()
+                time.sleep(timeInterval[i]*20)
+                pixels[i] = (0,0,0)
+                pixels.write()
     else:
-        for i in range(start, LED_count+end, 1):
-            #blue light for the rain drop
-            pixels[i] = (0,0,255)
-            pixels.write()
-            time.sleep(timeInterval[i])
-            pixels[i] = (0,0,0)
-            pixels.write()
+        if(timeofday == "day" or timeofday == "Day"):
+            for i in range(start, end):
+                #blue light for the rain drop
+                pixels[i] = (0,0,255)
+                pixels.write()
+                time.sleep(timeInterval[i])
+                pixels[i] = (0,0,0)
+                pixels.write()
+        else:
+            for i in range(start, end):
+                #blue light for the rain drop
+                pixels[i] = (0,0,255)
+                pixels.write()
+                time.sleep(timeInterval[i])
+                pixels[i] = (0,0,0)
+                pixels.write()
 
 ##method for have all the colors on 
 # param: none
@@ -137,8 +161,8 @@ def main():
     # continuousStrip()
     # clear()
     #showAllColors()
-    #print(rainHelper(LED_count))
-    rainyDay(0,50,"day")
+    #rainHelper(LED_count)
+    rainyDay(0,50,"day","slow")
 
 if __name__ == "__main__":
     main()
