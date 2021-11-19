@@ -44,6 +44,25 @@ def clear():
         #time.sleep(0.5)
     print("cleared")
 
+##method for have all the colors on 
+# param: none
+# type: none
+# output: none 
+# type: none
+# reference for range method in the for loop https://www.w3schools.com/python/ref_func_range.asp
+def showAllColors():
+    for i in range(0,LED_count,3):
+        print("showing")
+        pixels[i] = (255, 0, 0)
+        pixels.write()
+        time.sleep(0.5)
+        pixels[i+1] = (0, 255, 0)
+        pixels.write()
+        time.sleep(0.5)
+        pixels[i+2] = (0, 0, 255)
+        pixels.write()
+        time.sleep(0.5)
+
 ##method for making a continuous strip of lights
 # param: none
 # type: none
@@ -51,7 +70,6 @@ def clear():
 # type: none
 def continuousStrip():
     for i in range(LED_count):
-        print("strip")
         pixels[i] = (255,0,0)
         pixels.write()
         time.sleep(0.5)
@@ -90,13 +108,14 @@ def rainHelper(length):
 
 ##method for doing the rain animation of a water drop dropping down
 # math and physics calculations can be found on raincalc.txt
-# param: start, end, timeofday
-# type: int, int, string
+# param: start, end, timeofday, speed
+# type: int, int, string, string
 # output: none
 # type: none
 # start is the start number of the led
 # end is the end number of the led
-# timeofday tells what time of the day it is
+# timeofday tells what time of the day it is, if day, then blue is brighter, if night, then dimmer
+# speed tell how fast the rain drop goes, if slow then 1/20 of the actual speed, if fast then actual speed
 def rainyDay(start, end, timeofday, speed):
     timeInterval = rainHelper(end-start)
     if(speed == "slow" or speed == "Slow"):
@@ -134,25 +153,31 @@ def rainyDay(start, end, timeofday, speed):
                 pixels[i] = (0,0,0)
                 pixels.write()
 
-##method for have all the colors on 
-# param: none
+##method for doing the sun animation of the lights circling the sun then increasing in brightness
+# param: start, end
+# type: int, int
+# output: none
 # type: none
-# output: none 
-# type: none
-# reference for range method in the for loop https://www.w3schools.com/python/ref_func_range.asp
-def showAllColors():
-    for i in range(0,LED_count,3):
-        print("showing")
-        pixels[i] = (255, 0, 0)
+# start is the start number of the led
+# end is the end number of the led
+def sunnyDay(start, end):
+    #turn on all the lights for the sun
+    for i in range(start, end):
+        #orange red light for the sun
+        pixels[i] = (255, 70, 0)
         pixels.write()
-        time.sleep(0.5)
-        pixels[i+1] = (0, 255, 0)
-        pixels.write()
-        time.sleep(0.5)
-        pixels[i+2] = (0, 0, 255)
-        pixels.write()
-        time.sleep(0.5)
-
+        time.sleep(0.25)
+    #blink odd and evens on and off
+    #alternating
+    odds = []
+    evens = []
+    for i in range(start,end):
+        if(i%2 == 0):
+            evens.append(i)
+        else:
+            odds.append(i)
+        
+    
 ##main method
 # param: none
 # type: none
@@ -164,7 +189,11 @@ def main():
     # clear()
     #showAllColors()
     #rainHelper(LED_count)
-    rainyDay(0,50,"day","slow")
+    #rainyDay(0,50,"day","slow")
+    sunnyDay(5,20)
+    time.sleep(0.5)
+    clear()
+
 
 
 ##RUNTIME EXECUTIONS##

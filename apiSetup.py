@@ -16,7 +16,6 @@ import json
 import socket
 
 
-
 ##INSTANCE VARIABLES##
 
 ##grabs the api address using the socket module that support IP requests

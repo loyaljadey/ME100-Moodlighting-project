@@ -1,30 +1,18 @@
 ﻿Api and Ip stuff
 https://ipgeolocation.io/documentation/ip-geolocation-api.html
 https://www.weather.gov/documentation/services-web-api#
-
-
-
-
 https://realpython.com/beautiful-soup-web-scraper-python/
-
-
 Using socket to grab the ip address of the microcontroller on wifi
 https://docs.python.org/3/library/socket.html
-
-
 
 
 RPi config stuff (Rpi 3b)
 https://pypi.org/project/RPi.GPIO/
 https://www.google.com/search?q=python+raspberry+pi+gpio&rlz=1C1RXQR_enUS973US973&oq=python+rasp&aqs=chrome.1.0i20i263i512j0i512j0i20i263i512j69i57j0i512j69i60l3.4472j0j7&sourceid=chrome&ie=UTF-8#kpvalbx=_Rd2CYfDSJ_-g0PEPwIqnuA082
-
-
 https://raspberrypi.stackexchange.com/questions/79870/confirming-the-i2s-pins-on-raspberry-pi-3-model-b
 http://www.dimdim.gr/2014/12/the-rasberry-pi-audio-out-through-i2s/
 https://opensource.com/life/16/3/how-configure-raspberry-pi-microcontroller
 https://tutorials-raspberrypi.com/connect-control-raspberry-pi-ws2812-rgb-led-strips/
-
-
 
 
 Color mapping
@@ -32,16 +20,8 @@ https://www.rapidtables.com/convert/color/rgb-to-hex.html
 https://htmlcolorcodes.com/colors/
 
 
-
-
-
-
 IFTTT with RPi
 https://thepihut.com/blogs/raspberry-pi-tutorials/using-ifttt-with-the-raspberry-pi
-
-
-
-
 
 
 webscraping
@@ -50,37 +30,17 @@ https://en.wikipedia.org/wiki/Web_scraping
 
 Products purchased
 https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf
-
-
-
-
 https://www.etechnophiles.com/raspberry-pi-3-gpio-pinout-pin-diagram-and-specs-in-detail-model-b/
-
-
-
-
-
-
-
-
 https://www.amazon.com/BTF-LIGHTING-Waterproof-Flexible-Individually-Addressable/dp/B01CDTEH3Q/ref=sxin_13_pa_sp_search_thematic_sspa?cv_ct_cx=5050%2Baddressable%2Bled%2Bstrip&dchild=1&keywords=5050%2Baddressable%2Bled%2Bstrip&pd_rd_i=B01CDTEH3Q&pd_rd_r=b492f047-5912-49dc-bfb1-7e747b90c8d0&pd_rd_w=16Q3D&pd_rd_wg=SbywP&pf_rd_p=f21da57e-06e4-46a5-9148-e2dea2e78384&pf_rd_r=0XKWJJX6X4487K2GRQ2B&qid=1635545405&sprefix=5050%2Baddr%2Caps%2C126&sr=1-1-a73d1c8c-2fd2-4f19-aa41-2df022bcb241-spons&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUEyQTBPTUxQUEYwNkozJmVuY3J5cHRlZElkPUEwMDM2NTUyMVlHNDNUTzhVS1JORyZlbmNyeXB0ZWRBZElkPUEwNDA1MzgzMU80SjZFVUlMSU0yQyZ3aWRnZXROYW1lPXNwX3NlYXJjaF90aGVtYXRpYyZhY3Rpb249Y2xpY2tSZWRpcmVjdCZkb05vdExvZ0NsaWNrPXRydWU&th=1
-
-
 https://learn.adafruit.com/adafruit-i2s-mems-microphone-breakout/pinouts
-
-
 
 
 Existing designs
 https://nanoleaf.me/en-US/products/nanoleaf-lines/
 
 
-
-
 Project presentation
 https://docs.google.com/presentation/d/1SC6Z_k8UtpX4eiRqyJvULyO_MZR9F8gfE9C7gpSvSuw/edit#slide=id.p
-
-
 
 
 Research into led lights
