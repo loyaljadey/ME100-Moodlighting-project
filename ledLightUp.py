@@ -6,6 +6,7 @@
 
 ##IMPORTS##
 
+
 import machine
 ##must import neopixel in python via
 ##run the following command in the terminal
@@ -189,9 +190,9 @@ def main():
     # clear()
     #showAllColors()
     #rainHelper(LED_count)
-    #rainyDay(0,50,"day","slow")
-    sunnyDay(5,20)
-    time.sleep(0.5)
+    #rainyDay(0,100,"day","slow")
+    #sunnyDay(5,20)
+    #time.sleep(0.5)
     clear()
 
 
