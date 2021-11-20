@@ -123,7 +123,7 @@ def rainyDay(start, end, timeofday, speed):
         if(timeofday == "day" or timeofday == "Day"):
             for i in range(start, end):
                 #blue light for the rain drop
-                pixels[i] = (0,0,255)
+                pixels[i] = (0,0,200)
                 pixels.write()
                 time.sleep(timeInterval[i]*20)
                 pixels[i] = (0,0,0)
@@ -131,7 +131,7 @@ def rainyDay(start, end, timeofday, speed):
         else:
             for i in range(start, end):
                 #blue light for the rain drop
-                pixels[i] = (0,0,255)
+                pixels[i] = (0,0,200)
                 pixels.write()
                 time.sleep(timeInterval[i]*20)
                 pixels[i] = (0,0,0)
@@ -154,7 +154,7 @@ def rainyDay(start, end, timeofday, speed):
                 pixels[i] = (0,0,0)
                 pixels.write()
 
-##method for doing the sun animation of the lights circling the sun then increasing in brightness
+##method for doing the sun animation of the lights circling the sun then alternating the lights
 # param: start, end
 # type: int, int
 # output: none
@@ -177,7 +177,24 @@ def sunnyDay(start, end):
             evens.append(i)
         else:
             odds.append(i)
-        
+    print(odds)
+    print(evens)
+
+##method for doing the cloud animation of the lights circling the cloud
+# param: start, end
+# type: int, int
+# output: none
+# type: none
+# start is the start number of the led
+# end is the end number of the led
+def cloudyDay(start, end):
+    #turn on all the lights for the sun
+    for i in range(start, end):
+        #orange red light for the sun
+        pixels[i] = (200, 200, 200)
+        pixels.write()
+        time.sleep(0.5)
+
     
 ##main method
 # param: none
@@ -191,9 +208,9 @@ def main():
     #showAllColors()
     #rainHelper(LED_count)
     #rainyDay(0,100,"day","slow")
-    #sunnyDay(5,20)
+    sunnyDay(5,20)
     #time.sleep(0.5)
-    clear()
+    #clear()
 
 
 
