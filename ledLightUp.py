@@ -177,8 +177,38 @@ def sunnyDay(start, end):
             evens.append(i)
         else:
             odds.append(i)
-    print(odds)
-    print(evens)
+    #print(odds)
+    #print(evens)
+
+    #turning light on and off alternating between odds and evens
+    repeat = 10
+    while repeat > 0:
+        #odds
+        #turn on
+        for i in odds:
+            #orange red light for the sun
+            pixels[i] = (255, 70, 0)
+        pixels.write()
+        #turn off
+        for i in odds:
+            #orange red light for the sun
+            pixels[i] = (0, 0, 0)
+        time.sleep(0.25)
+
+        #evens
+        #turn on
+        for i in evens:
+            #orange red light for the sun
+            pixels[i] = (255, 70, 0)
+        pixels.write()
+        time.sleep(0.25)
+        #turn off
+        for i in evens:
+            #orange red light for the sun
+            pixels[i] = (0, 0, 0)
+        time.sleep(0.25)
+
+        repeat -= 1
 
 ##method for doing the cloud animation of the lights circling the cloud
 # param: start, end
