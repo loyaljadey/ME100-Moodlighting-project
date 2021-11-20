@@ -5,7 +5,6 @@
 #         Mechanical Engineering 2024
 
 ##IMPORTS##
-
 ##must import requests in python via
 ##run the following command in the terminal
 ##windows: pip install requests
@@ -17,7 +16,6 @@ import socket
 
 
 ##INSTANCE VARIABLES##
-
 ##grabs the api address using the socket module that support IP requests
 ##https://docs.python.org/3/library/socket.html
 ##gets all the IPv6 addresses 
@@ -33,7 +31,6 @@ IPv6address = IPaddress[0][4][0]
 
 
 ##FUNCTIONS/METHODS##
-
 ##method for formatting the output of the api data that is outputted by the website
 # param: obj
 # type: object
@@ -138,7 +135,6 @@ b = hex(255)
 
 
 ##RUNTIME EXECUTIONS##
-
 ##weather in F through the ipgeolocation api
 print(str(temp(NWS(IPGeolocation(IPv6address)))) + ' F')
 ##forcast through a given coordinate

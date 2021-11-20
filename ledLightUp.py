@@ -4,9 +4,8 @@
 ##author: Michael Jia 
 #         Mechanical Engineering 2024
 
+
 ##IMPORTS##
-
-
 import machine
 ##must import neopixel in python via
 ##run the following command in the terminal
@@ -16,6 +15,8 @@ import neopixel
 import math
 import time
 
+
+##INSTANCE VARIABLES##
 #physical constraints: 
 #   the leds are space 13mm between each other
 #   the gravity is 9.8 m/s^2
@@ -25,13 +26,32 @@ gravity = 9.8
 LED_count = 300
 #setting the gpio pin used as PWM to the lights
 pin = 27
+#colors
+RED = (255,0,0)
+GREEN = (0,255,0)
+BLUE = (0,0,255)
+DIMMER_BLUE = (0,0,200)
+NO_COLOR = (0,0,0)
+WHITE = (255,255,255)
+DIMMER_WHITE = (200,200,200)
+ORANGE_RED = (255,70,0)
+
+
+
+#for later use when in the assembly, we know where each led is exactly going to be
+#we can replace the start and end with the exact places of the pixels
+#sun_pixel_start_end = []
+#cloud_pixel_start_end = []
+#rain_pixel_start_end =[] 
+
+
+
 
 #creating a neopixel object to use the PWM signal to power the lights
 pixels = neopixel.NeoPixel(machine.Pin(pin), LED_count)
 
 
 ##FUNCTIONS/METHODS##
-
 ##method for clearing all the leds
 # param: none
 # type: none
@@ -40,7 +60,7 @@ pixels = neopixel.NeoPixel(machine.Pin(pin), LED_count)
 def clear():
     for i in range(LED_count):
         print("clearing")
-        pixels[i] = (0,0,0)
+        pixels[i] = NO_COLOR
         pixels.write()
         #time.sleep(0.5)
     print("cleared")
@@ -54,15 +74,15 @@ def clear():
 def showAllColors():
     for i in range(0,LED_count,3):
         print("showing")
-        pixels[i] = (255, 0, 0)
+        pixels[i] = RED
         pixels.write()
-        time.sleep(0.5)
-        pixels[i+1] = (0, 255, 0)
+        time.sleep(0.125)
+        pixels[i+1] = GREEN
         pixels.write()
-        time.sleep(0.5)
-        pixels[i+2] = (0, 0, 255)
+        time.sleep(0.125)
+        pixels[i+2] = BLUE
         pixels.write()
-        time.sleep(0.5)
+        time.sleep(0.125)
 
 ##method for making a continuous strip of lights
 # param: none
@@ -71,8 +91,9 @@ def showAllColors():
 # type: none
 def continuousStrip():
     for i in range(LED_count):
-        pixels[i] = (255,0,0)
+        pixels[i] = RED
         pixels.write()
+        pixels[i] = RED
         time.sleep(0.5)
 
 ##helper method for doing the rain time intervals
@@ -123,35 +144,35 @@ def rainyDay(start, end, timeofday, speed):
         if(timeofday == "day" or timeofday == "Day"):
             for i in range(start, end):
                 #blue light for the rain drop
-                pixels[i] = (0,0,200)
+                pixels[i] = BLUE
                 pixels.write()
                 time.sleep(timeInterval[i]*20)
-                pixels[i] = (0,0,0)
+                pixels[i] = NO_COLOR
                 pixels.write()
         else:
             for i in range(start, end):
                 #blue light for the rain drop
-                pixels[i] = (0,0,200)
+                pixels[i] = DIMMER_BLUE
                 pixels.write()
                 time.sleep(timeInterval[i]*20)
-                pixels[i] = (0,0,0)
+                pixels[i] = NO_COLOR
                 pixels.write()
     else:
         if(timeofday == "day" or timeofday == "Day"):
             for i in range(start, end):
                 #blue light for the rain drop
-                pixels[i] = (0,0,255)
+                pixels[i] = BLUE
                 pixels.write()
                 time.sleep(timeInterval[i])
-                pixels[i] = (0,0,0)
+                pixels[i] = NO_COLOR
                 pixels.write()
         else:
             for i in range(start, end):
                 #blue light for the rain drop
-                pixels[i] = (0,0,255)
+                pixels[i] = DIMMER_BLUE
                 pixels.write()
                 time.sleep(timeInterval[i])
-                pixels[i] = (0,0,0)
+                pixels[i] = NO_COLOR
                 pixels.write()
 
 ##method for doing the sun animation of the lights circling the sun then alternating the lights
@@ -165,7 +186,7 @@ def sunnyDay(start, end):
     #turn on all the lights for the sun
     for i in range(start, end):
         #orange red light for the sun
-        pixels[i] = (255, 70, 0)
+        pixels[i] = ORANGE_RED
         pixels.write()
         time.sleep(0.25)
     #blink odd and evens on and off
@@ -187,25 +208,25 @@ def sunnyDay(start, end):
         #turn on
         for i in odds:
             #orange red light for the sun
-            pixels[i] = (255, 70, 0)
+            pixels[i] = ORANGE_RED
         pixels.write()
         #turn off
         for i in odds:
             #orange red light for the sun
-            pixels[i] = (0, 0, 0)
+            pixels[i] = ORANGE_RED
         time.sleep(0.25)
 
         #evens
         #turn on
         for i in evens:
             #orange red light for the sun
-            pixels[i] = (255, 70, 0)
+            pixels[i] = ORANGE_RED
         pixels.write()
         time.sleep(0.25)
         #turn off
         for i in evens:
             #orange red light for the sun
-            pixels[i] = (0, 0, 0)
+            pixels[i] = NO_COLOR
         time.sleep(0.25)
 
         repeat -= 1
@@ -218,14 +239,13 @@ def sunnyDay(start, end):
 # start is the start number of the led
 # end is the end number of the led
 def cloudyDay(start, end):
-    #turn on all the lights for the sun
+    #turn on all the lights for the cloud
     for i in range(start, end):
-        #orange red light for the sun
-        pixels[i] = (200, 200, 200)
+        #dimmer white light for the cloud
+        pixels[i] = DIMMER_WHITE
         pixels.write()
         time.sleep(0.5)
 
-    
 ##main method
 # param: none
 # type: none
@@ -233,18 +253,16 @@ def cloudyDay(start, end):
 # type: none
 def main():
     #clear()
-    # continuousStrip()
-    # clear()
     #showAllColors()
+    #continuousStrip()    
     #rainHelper(LED_count)
     #rainyDay(0,100,"day","slow")
-    sunnyDay(5,20)
-    #time.sleep(0.5)
-    #clear()
+    #sunnyDay(5,20)
+    #cloudyDay(5,20)
+    clear()
 
 
 
 ##RUNTIME EXECUTIONS##
-
 if __name__ == "__main__":
     main()
