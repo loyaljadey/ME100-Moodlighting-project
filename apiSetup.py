@@ -60,9 +60,9 @@ def IPGeolocation(IP) :
     ##["name of wanted output"]
     ##https://stackoverflow.com/questions/12788217/how-to-extract-a-single-value-from-json-response
     latitude = ipResponse.json()["latitude"]
-    print(latitude)
+    #print(latitude)
     longitude = ipResponse.json()["longitude"]
-    print(longitude)
+    #print(longitude)
     return [latitude,longitude]
 
 ##method for grabbing the National Weather Service API info
@@ -88,7 +88,7 @@ def NWS(coordinates):
     forecastProperties = nwsForecast.json()["properties"]
     forecastPeriod = forecastProperties["periods"]
     todayweather = forecastPeriod[0]
-    print(todayweather)
+    #print(todayweather)
 
     return todayweather
 
@@ -100,44 +100,12 @@ def NWS(coordinates):
 def temp(weather):
     #temperature from the weather api
     temperature = weather["temperature"]
-    return temperature
-
-##method to map temperature to color schemes in hexadecimal or in rgb values
-##https://www.rapidtables.com/convert/color/rgb-to-hex.html
-##https://htmlcolorcodes.com/colors/
-# param: colorScheme, temp
-# type: int, int
-# output: gradient
-# type: []
-""" 
-def tempGradient(colorscheme, temp):
-    gradient = []
-    if colorscheme == "warm":
-        for x in range(10):
-            gradient[x] = 
-    elif colorscheme == "cold":
-        for x in range(10):
-            gradient[x] = 
-    elif colorscheme == "retro":
-        for x in range(10):
-            gradient[x] = 
-    elif colorscheme == "moody":
-        for x in range(10):
-            gradient[x] = 
-
-245, 176, 65 
-r = hex(255)
-g = hex(255)
-b = hex(255)
-"0x" + r[len(r)-2] + r[len(r)-1] + g[len(g)-2] + g[len(g)-1] + b[len(b)-2] + b[len(b)-1]
-"""
-    
-
+    return temperature  
 
 ##RUNTIME EXECUTIONS##
 ##weather in F through the ipgeolocation api
 print(str(temp(NWS(IPGeolocation(IPv6address)))) + ' F')
 ##forcast through a given coordinate
-#print(NWS([37.8716,-122.2728]))
+print(NWS([37.8716,-122.2728])["shortForecast"])
 
 
