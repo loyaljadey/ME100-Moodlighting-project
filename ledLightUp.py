@@ -202,8 +202,8 @@ def sunnyDay(start, end):
     #print(evens)
 
     #turning light on and off alternating between odds and evens
-    repeat = 10
-    while repeat > 0:
+    repeat = True
+    while repeat:
         #odds
         #turn on
         for i in odds:
@@ -227,8 +227,6 @@ def sunnyDay(start, end):
             pixels.__setitem__(i, NO_COLOR)
         time.sleep(0.25)
 
-        repeat -= 1
-
 ##method for doing the cloud animation of the lights circling the cloud
 # param: start, end
 # type: int, int
@@ -250,10 +248,26 @@ def cloudyDay(start, end):
 #nake a transition method between the weathers
 #clear lights first, then show the new one
 
-#on and off animation 
-#not abrupt 
-
-
+##method for turning on and off the lights not abrutly
+# param: start, end, ONorOFF
+# type: int, int
+# output: none
+# type: none
+# start is the start number of the led
+# end is the end number of the led
+def onOrOff(start, end, ONorOFF):
+    if(ONorOFF == "on" or ONorOFF == "oN" or ONorOFF == "On" or ONorOFF == "ON"):    
+        for i in range(0,260,5):
+            for j in range(start,end):
+                pixels.__setitem__(j,(i,i,i))
+            pixels.write()
+            time.sleep(0.125)
+    else:
+        for i in range(255,-5,-5):
+            for j in range(start,end):
+                pixels.__setitem__(j,(i,i,i))
+            pixels.write()
+            time.sleep(0.125)
 
 ##main method
 # param: none
@@ -267,7 +281,9 @@ def main():
     #rainHelper(LED_count)
     #rainyDay(0,100,"day","slow")
     #sunnyDay(5,20)
-    cloudyDay(5,20)
+    #cloudyDay(5,20)
+    #onOrOff(3,20,"on")
+    onOrOff(3,20,"off")
     #clear()
 
 
