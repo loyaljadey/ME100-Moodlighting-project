@@ -2,7 +2,8 @@
 # RPI to ESP32 communication, this is the RPI sending
 
 import paho.mqtt.client as paho
-import time
+from Weather_API import Weather_API
+
 
 # initalize session information
 session = "xbarneclo/moodlighting/comms"
@@ -15,27 +16,17 @@ mqtt = paho.Client()
 mqtt.connect(BROKER, port=1883)
 print("Connected!")
 
-# initalize weather list
-SUNNY_LIST = ["Sunny", "Fair", "Sun", "Clear"]
-CLOUDY_LIST = ["Cloudy", "Overcast", "Clouds", "Mostly Cloudy", "Partly Cloudy", "Fog", "Haze", "Mist", "Smoke"]
-RAINY_LIST = ["Rainy", "Rain", "Thunderstorm", "Lightning", "Snow", "Hail", "Sleet", "Sprinkling", "Drizzling", "Raining"]
-THEME_LIST = [SUNNY_LIST,CLOUDY_LIST,RAINY_LIST]
-
-# helper functions
-def theme_select(msg):
-    for i in THEME_LIST:
-        for q in i:
-            if msg == q:
-                return i[0]
+prev_mic = None
+prev_state = None
 
 while True:
-    # data collection: weather API
+    # data collection: microphones
     mic_data = None
 
 
-    # data collection: microphones
-    weather_data = None
-    theme = theme_select(weather_data)
+    # data collection: weather API
+    weather = Weather_API()
+    weather_data = weather.get_theme()
 
 
     # publish if there is data
