@@ -250,6 +250,8 @@ def cloudyDay(start, end):
 #nake a transition method between the weathers
 #clear lights first, then show the new one
 
+#on and off animation 
+#not abrupt 
 
 
 

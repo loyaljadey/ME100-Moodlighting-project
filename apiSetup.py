@@ -75,20 +75,19 @@ def NWS(coordinates):
     ##format input into latitude and longitude
     latitude = coordinates[0]
     longitude = coordinates[1]
-    ##grab the gridpoints at the particular latitude and longitude
-    nwsResponseGridPoints = requests.get("https://api.weather.gov/points/" + str(latitude) + "," + str(longitude))
-    ##grab the properties of the response
-    gridProperties = nwsResponseGridPoints.json()["properties"]
-    ##these are the grid properties for the forecast of a particular area
-    gridId = gridProperties["gridId"]
-    gridX = gridProperties["gridX"]
-    gridY = gridProperties["gridY"]
-
-    nwsForecast = requests.get("https://api.weather.gov/gridpoints/" + str(gridId) + "/" + str(gridX) + "," + str(gridY) + "/forecast")
+    ##grab the response at the particular latitude and longitude
+    nwsResponse = requests.get("https://api.weather.gov/points/" + str(latitude) + "," + str(longitude))
+    ##grab the forecast of the response
+    forecast = nwsResponse.json()["properties"]["forecastHourly"]
+    #print(forecast)
+    nwsForecast = requests.get(forecast)
+    #jsonprint(nwsForecast)
     forecastProperties = nwsForecast.json()["properties"]
+    #jsonprint(forecastProperties)
     forecastPeriod = forecastProperties["periods"]
+    #jsonprint(forecastPeriod)
     todayweather = forecastPeriod[0]
-    #print(todayweather)
+    #jsonprint(todayweather)
 
     return todayweather
 
@@ -105,7 +104,8 @@ def temp(weather):
 ##RUNTIME EXECUTIONS##
 ##weather in F through the ipgeolocation api
 print(str(temp(NWS(IPGeolocation(IPv6address)))) + ' F')
+print(NWS(IPGeolocation(IPv6address))["shortForecast"])
 ##forcast through a given coordinate
-print(NWS([37.8716,-122.2728])["shortForecast"])
+#print(NWS([37.8716,-122.2728])["shortForecast"])
 
 
