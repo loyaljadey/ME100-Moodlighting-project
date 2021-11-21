@@ -29,6 +29,7 @@ https://en.wikipedia.org/wiki/Web_scraping
 
 LED programming links
 https://pypi.org/project/adafruit-circuitpython-neopixel/
+https://docs.micropython.org/en/latest/library/neopixel.html?highlight=neopixel#module-neopixel
 
 
 Products purchased
