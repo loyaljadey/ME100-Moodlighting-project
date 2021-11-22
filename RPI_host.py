@@ -16,8 +16,8 @@ mqtt = paho.Client()
 mqtt.connect(BROKER, port=1883)
 print("Connected!")
 
+prev_weather = None
 prev_mic = None
-prev_state = None
 
 while True:
     # data collection: microphones
@@ -29,12 +29,11 @@ while True:
     weather_data = weather.get_theme()
 
 
-    # publish if there is data
-    mic_state = False
-    weather_state = False
-
-    if mic_state:
+    # publish if there is changed data
+    if prev_mic != mic_data:
         mqtt.publish("{}/state".format(session), mic_data)
+        prev_mic = mic_data
 
-    if weather_state:
+    if prev_weather != weather_data:
         mqtt.publish("{}/theme".format(session), weather_data)
+        prev_weather = weather_data
