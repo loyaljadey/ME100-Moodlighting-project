@@ -5,7 +5,7 @@ from mqttclient import MQTTClient
 from machine import Pin
 import time
 import _thread
-import LED_control
+from LED_control import LED_control
 
 def mqtt_thread():
     # initalize session information
@@ -14,7 +14,7 @@ def mqtt_thread():
     qos = 2
 
     global thread
-    thread = None
+    thread = True
 
     # connect to MQTT broker
     print("Connecting to MQTT broker", BROKER, "...", end="")
@@ -24,14 +24,12 @@ def mqtt_thread():
 
     # Define function to execute when a message is recieved on a subscribed topic.
     def theme_change(c, u, msg):
-        theme = msg.decode('utf-8')
-        
         global thread
-        if thread:
-            thread.exit()
-            thread = None
+        thread = False
 
-        thread = _thread.start_new_thread(LED_thread, 6)
+        theme = msg.decode('utf-8')
+
+        _thread.start_new_thread(LED_thread, 6)
 
         if theme == "Rainy":
             thread = _thread.start_new_thread(LED_thread, 1)
@@ -60,22 +58,12 @@ def mqtt_thread():
     mqtt.loop_forever()
 
 def LED_thread(theme):
+    global thread
     LED = LED_control()
 
-    if theme == 1:
-        LED.rainy_theme()
-    elif theme == 2:
-        LED.sunny_theme()
-    elif theme == 3:
-        LED.cloudy_theme()
-    elif theme == 4:
-        LED.on_transition()
-        _thread.exit()
-    elif theme == 5:
-        LED.off_transition()
-        _thread.exit()
-    elif theme == 6:
-        LED.theme_transition()
-        _thread.exit()
+    while thread:
+        LED.play_theme(theme)
+    _thread.exit()
+
 
 _thread.start_new_thread(mqtt_thread,())
