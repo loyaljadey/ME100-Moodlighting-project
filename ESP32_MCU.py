@@ -8,13 +8,18 @@ import _thread
 from LED_control import LED_control
 
 def mqtt_thread():
+    # helper function
+    def thread_starter(theme):
+        global thread
+        thread = True
+
+        _thread.start_new_thread(LED_thread, theme)
+
     # initalize session information
     session = "xbarneclo/moodlighting/comms"
     BROKER = "broker.mqttdashboard.com"
     qos = 2
 
-    global thread
-    thread = True
 
     # connect to MQTT broker
     print("Connecting to MQTT broker", BROKER, "...", end="")
@@ -22,30 +27,42 @@ def mqtt_thread():
     mqtt.connect(BROKER, port=1883)
     print("Connected!")
 
-    # Define function to execute when a message is recieved on a subscribed topic.
+    # lights turning on animation
+    global thread
+    thread = True
+
+    thread_starter(4)
+
+    # Define functions to execute when a message is recieved on a subscribed topic
     def theme_change(c, u, msg):
+        theme = msg.decode('utf-8')
+
+        # start by turning off thread
         global thread
         thread = False
 
-        theme = msg.decode('utf-8')
-
-        _thread.start_new_thread(LED_thread, 6)
+        thread_starter(6)
 
         if theme == "Rainy":
-            thread = _thread.start_new_thread(LED_thread, 1)
+            thread_starter(1)
         elif theme == "Sunny":
-            thread = _thread.start_new_thread(LED_thread, 2)
+            thread_starter(2)
         else:
-            thread = _thread.start_new_thread(LED_thread, 3)
+            thread_starter(3)
         
     def state_change(c, u, msg):
         input = msg.decode('utf-8')
+
+        global thread
+        thread = False
+
         if input == "on":
-            return None
             # on transition here
+            thread_starter(4)
         else:
-            return None
             # off transition here
+            thread_starter(5)
+
 
     # Topic subscriptions, if voice recognition isn't good enough implement adafruit IFTTT here
     state_topic = session + "/state"
@@ -55,15 +72,17 @@ def mqtt_thread():
     mqtt.message_callback_add(state_topic, state_change)
     mqtt.message_callback_add(theme_topic, theme_change)
 
-    mqtt.loop_forever()
-
 def LED_thread(theme):
     global thread
     LED = LED_control()
 
-    while thread:
-        LED.play_theme(theme)
+    out = None
+    while thread and not out:
+        out = LED.play_theme(theme)
     _thread.exit()
 
 
 _thread.start_new_thread(mqtt_thread,())
+
+while True:
+    pass

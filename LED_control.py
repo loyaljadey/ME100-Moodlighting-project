@@ -20,13 +20,13 @@ class LED_control:
         a = 1
 
     def on_transition():
-        a = 1
+        return True
 
     def off_transition():
-        a = 1
+        return True
     
     def theme_transition():
-        a = 1
+        return True
 
     def play_theme(self, theme):
         if theme == 1:
@@ -35,4 +35,9 @@ class LED_control:
             self.rainy_theme()
         elif theme == 3:
             self.cloudy_theme()
-        elif 
+        elif theme == 4:
+            self.on_transition()
+        elif theme == 5:
+            self.off_transition()
+        else:
+            self.theme_transition()
