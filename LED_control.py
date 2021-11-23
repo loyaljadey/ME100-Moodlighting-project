@@ -11,21 +11,27 @@ class LED_control:
         self.LED_count = c
 
     def sunny_theme():
-        a = 1
+        print("sunny theme")
+        return False
 
     def rainy_theme():
-        a = 1
+        print("rainy theme")
+        return False
 
     def cloudy_theme():
-        a = 1
+        print("sunny theme")
+        return False
 
     def on_transition():
+        print("on transition")
         return True
 
     def off_transition():
+        print("off transition")
         return True
     
     def theme_transition():
+        print("theme transition")
         return True
 
     def play_theme(self, theme):
