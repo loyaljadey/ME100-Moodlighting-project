@@ -6,9 +6,9 @@ from Weather_API import Weather_API
 
 
 # initalize session information
-session = "xbarneclo/moodlighting/comms"
+session = "xbarneclo/RPI2ESP/state"
 BROKER = "broker.mqttdashboard.com"
-qos = 2
+qos = 0
 
 # connect to MQTT broker
 print("Connecting to MQTT broker", BROKER, "...", end="")

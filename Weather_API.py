@@ -56,4 +56,3 @@ class Weather_API:
     def get_theme(self):
         weather = self.NWS(self.IPGeolocation(self.IPv6address))["shortForecast"]
         return self.theme_select(weather)
-
