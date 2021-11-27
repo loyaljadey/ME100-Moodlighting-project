@@ -23,7 +23,8 @@ import time
 LED_distance = 0.013
 gravity = 9.8
 #setting the led count on the device
-LED_count = 300
+#the system uses 83 leds
+LED_count = 83
 #setting the gpio pin used as PWM to the lights
 pin = 27
 #colors
@@ -33,7 +34,10 @@ BLUE = (0,0,255)
 DIMMER_BLUE = (0,0,200)
 NO_COLOR = (0,0,0)
 WHITE = (255,255,255)
-DIMMER_WHITE = (200,200,200)
+DIMMER_WHITE = (180,180,180)
+DIMMER_WHITE2 = (120,120,120)
+DIMMER_WHITE3 = (10,10,10)
+DIMMER_WHITE4 = (5,5,5)
 ORANGE_RED = (255,70,0)
 
 
@@ -62,7 +66,7 @@ def clear():
         print("clearing")
         pixels.__setitem__(i, NO_COLOR)
         pixels.write()
-        time.sleep(0.05)
+        #time.sleep(0.05)
     print("cleared")
 
 ##method for have all the colors on 
@@ -91,9 +95,10 @@ def showAllColors():
 # type: none
 def continuousStrip():
     for i in range(LED_count):
-        pixels.__setitem__(i, RED)
+        pixels.__setitem__(i, BLUE)
         pixels.write()
-        pixels.__setitem__(i, RED)
+        pixels.__setitem__(i,NO_COLOR)
+        pixels.write()
         time.sleep(0.5)
 
 ##helper method for doing the rain time intervals
@@ -210,6 +215,7 @@ def sunnyDay(start, end):
             #orange red light for the sun
             pixels.__setitem__(i, ORANGE_RED)
         pixels.write()
+        time.sleep(0.5)
         #turn off
         for i in odds:
             pixels.__setitem__(i, NO_COLOR)
@@ -221,11 +227,12 @@ def sunnyDay(start, end):
             #orange red light for the sun
             pixels.__setitem__(i, ORANGE_RED)
         pixels.write()
-        time.sleep(0.25)
+        time.sleep(0.5)
         #turn off
         for i in evens:
             pixels.__setitem__(i, NO_COLOR)
         time.sleep(0.25)
+
 
 ##method for doing the cloud animation of the lights circling the cloud
 # param: start, end
@@ -234,15 +241,27 @@ def sunnyDay(start, end):
 # type: none
 # start is the start number of the led
 # end is the end number of the led
+#whiteLED = [DIMMER_WHITE4,DIMMER_WHITE2,WHITE]
+whiteLED = [RED,GREEN,BLUE]
 def cloudyDay(start, end):
-    #turn on all the lights for the cloud
-    for i in range(start, end):
-        #dimmer white light for the cloud
-        pixels.__setitem__(i, DIMMER_WHITE)
-        pixels.write()
-        time.sleep(0.5)
-
-    #use a sine function to make a breathing option for the lights
+    #turns on the different whites initally
+    for i in range(start, end, 3):
+        for j in range(0,3):
+            #print(whiteLED[j])
+            pixels.__setitem__(i+j, whiteLED[j])
+            pixels.write()
+            time.sleep(0.125)
+    # # #shift its current color down an led every 5 leds like a wave
+    # x = 0
+    # while x < 4:
+    #     for q in range(2,-1,-1):
+    #         for i in range(start, end, 3):
+    #             for j in range(0,3):
+    #                 pixels.__setitem__(i+j, #this is wrong and not correct 
+    #                                             whiteLED[q-j])
+    #         pixels.write()
+    #     time.sleep(5)
+    #     x+=1
 
 
 #nake a transition method between the weathers
@@ -261,14 +280,12 @@ def onOrOff(start, end, ONorOFF):
             for j in range(start,end):
                 pixels.__setitem__(j,(i,i,i))
             pixels.write()
-            time.sleep(0.125)
     else:
         for i in range(255,-5,-5):
             for j in range(start,end):
                 pixels.__setitem__(j,(i,i,i))
             pixels.write()
-            time.sleep(0.125)
-
+            
 ##main method
 # param: none
 # type: none
@@ -280,12 +297,11 @@ def main():
     #continuousStrip()    
     #rainHelper(LED_count)
     #rainyDay(0,100,"day","slow")
-    #sunnyDay(5,20)
-    #cloudyDay(5,20)
+    sunnyDay(0,7)
+    #cloudyDay(5,8)
     #onOrOff(3,20,"on")
-    onOrOff(3,20,"off")
+    #onOrOff(3,20,"off")
     #clear()
-
 
 
 ##RUNTIME EXECUTIONS##
