@@ -9,6 +9,7 @@ from umqttsimple import MQTTClient
 import ubinascii
 import machine
 from network import WLAN, STA_IF
+import neopixel
 
 RAINY = 1
 SUNNY = 2
@@ -17,15 +18,21 @@ ON = 4
 OFF = 5
 TRANS = 6
 
+pin = 27
+LED_count = 83
+
 
 
 def mqtt_thread():
+    # create pixels object for continuous use between threads
+    pixels = neopixel.NeoPixel(machine.Pin(pin), LED_count)
+
     # helper function
-    def thread_starter(theme):
+    def thread_starter(theme, curr_theme):
         global thread
         thread = True
 
-        _thread.start_new_thread(LED_thread, theme)
+        _thread.start_new_thread(LED_thread, (theme, pixels, curr_theme))
 
     wlan = WLAN(STA_IF)
     wlan.active(True)
@@ -51,30 +58,31 @@ def mqtt_thread():
     def sub_cb(topic, msg):
         # extract relevant information from MQTT message
         state = msg
+        curr_theme = msg
         theme = msg
 
         # start by turning off thread
         global thread
         thread = False
 
-        # transition theme anmiation
-        thread_starter(TRANS)
-
         # change state
-        if input == "on":
+        if state == "on":
             # on transition here
             thread_starter(ON)
-        else:
+        elif state == "off":
             # off transition here
             thread_starter(OFF)
         
         # change theme
         if theme == "Rainy":
-            thread_starter(RAINY)
+            thread_starter(TRANS, curr_theme)
+            thread_starter(RAINY, None)
         elif theme == "Sunny":
-            thread_starter(SUNNY)
-        else:
-            thread_starter(CLOUDY)
+            thread_starter(TRANS, curr_theme)
+            thread_starter(SUNNY, None)
+        elif theme == "Cloudy":
+            thread_starter(TRANS, curr_theme)
+            thread_starter(CLOUDY, None)
 
 
     client = MQTTClient(client_id, mqtt_server)
@@ -92,13 +100,13 @@ def mqtt_thread():
         time.sleep(5)
 
 
-def LED_thread(theme):
+def LED_thread(theme, pixels, curr_theme):
     global thread
-    LED = LED_control()
+    LED = LED_control(pixels)
 
     out = None
     while thread and not out:
-        out = LED.play_theme(theme)
+        out = LED.play_theme(theme, curr_theme)
     _thread.exit()
 
 
