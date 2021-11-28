@@ -96,8 +96,8 @@ def mqtt_thread():
     thread_starter(ON)
 
     while True:
-        client.check_msg()
-        time.sleep(5)
+        client.wait_msg()
+        time.sleep(1)
 
 
 def LED_thread(theme, pixels, curr_theme):
