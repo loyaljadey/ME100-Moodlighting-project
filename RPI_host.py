@@ -21,6 +21,7 @@ prev_mic = None
 
 while True:
     # data collection: microphones
+    # should be on, off, or None output
     mic_data = None
 
 
@@ -31,9 +32,11 @@ while True:
 
     # publish if there is changed data
     if prev_mic != mic_data:
-        mqtt.publish("{}/state".format(session), mic_data)
+        if mic_data == "off":
+            weather_data = None
+        mqtt.publish(session, "{},{},{}".format(mic_data, weather_data, prev_weather))
         prev_mic = mic_data
 
     if prev_weather != weather_data:
-        mqtt.publish("{}/theme".format(session), weather_data)
+        mqtt.publish(session, "{},{},{}".format(mic_data, weather_data, prev_weather))
         prev_weather = weather_data
