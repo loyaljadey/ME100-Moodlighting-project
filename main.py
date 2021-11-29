@@ -68,12 +68,13 @@ def mqtt_thread():
             LED.theme_control(state, None, 3)
         
         # change theme
-        if theme == "Rainy":
-            LED.theme_control(RAINY, curr_theme, 2)
-        elif theme == "Sunny":
-            LED.theme_control(SUNNY, curr_theme, 2)
-        elif theme == "Cloudy":
-            LED.theme_control(CLOUDY, curr_theme, 2)
+        LED.theme_control(theme, curr_theme, 2)
+        # if theme == "Rainy":
+        #     LED.theme_control(RAINY, curr_theme, 2)
+        # elif theme == "Sunny":
+        #     LED.theme_control(SUNNY, curr_theme, 2)
+        # elif theme == "Cloudy":
+        #     LED.theme_control(CLOUDY, curr_theme, 2)
 
 
     client = MQTTClient(client_id, mqtt_server)
