@@ -77,7 +77,7 @@ class LED_control:
         for i in odds:
             pixels.__setitem__(i, NO_COLOR)
         pixels.write()
-        time.sleep(0.25)
+        time.sleep(0.5)
 
         #turn evens on
         for i in evens:
@@ -90,7 +90,7 @@ class LED_control:
         for i in evens:
             pixels.__setitem__(i, NO_COLOR)
         pixels.write()
-        time.sleep(0.25)
+        time.sleep(0.5)
 
         return False
 
