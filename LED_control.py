@@ -43,7 +43,6 @@ class LED_control:
         self.state = None
         self.theme = None
        
-
     def sunny_theme(self):
         print("Playing sunny")
         pixels = self.pixels
@@ -77,6 +76,7 @@ class LED_control:
         #turn odds off
         for i in odds:
             pixels.__setitem__(i, NO_COLOR)
+        pixels.write()
         time.sleep(0.25)
 
         #turn evens on
@@ -89,6 +89,7 @@ class LED_control:
         #turn evens off
         for i in evens:
             pixels.__setitem__(i, NO_COLOR)
+        pixels.write()
         time.sleep(0.25)
 
         return False
@@ -192,8 +193,6 @@ class LED_control:
             pixels.__setitem__(i,(0,0,0))
         pixels.write()
 
-        
-
     def off_transition(self):
         print("Turning off")
         pixels = self.pixels
@@ -266,12 +265,10 @@ class LED_control:
                     self.off_transition()
                 self.state_change = False
 
-
     def update_theme(self, theme, curr_theme):
         self.theme = theme
         self.curr_theme = curr_theme
         self.theme_change = True
-
 
     def update_state(self, state):
         if state == "off" and self.state != "off":
@@ -282,7 +279,6 @@ class LED_control:
             print("Internal state on")
             self.state = "on"
             self.state_change = True
-
 
     def theme_control(self, theme, curr_theme, type):
         with self.lock:
