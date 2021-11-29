@@ -33,7 +33,7 @@ def mic_thread(name):
         with mic as source:
             print("Recording")
             r.adjust_for_ambient_noise(source)
-            audio = r.record(source, offset =.05, duration = .5)
+            audio = r.record(source, offset =.1, duration = 1.5)
             store.set_audio(audio)
             
             
@@ -51,9 +51,9 @@ def MQTT_thread():
             text = text.replace('.','')
             text = text.lower()
             print("identified " + text)
-            if text == "on" or text == "turn on":
+            if "on" in text:
                 mic_data = "on"
-            elif text == "off" or text == "turn off":
+            elif "off" in text:
                 mic_data = "off"
             else:
                 mic_data = None
@@ -66,7 +66,7 @@ def MQTT_thread():
         if weather_cycle == 0:
             weather = Weather_API()
             weather_data = weather.get_theme()
-            weather_cycle = 1800
+            weather_cycle = 1200
         weather_cycle -= 1
 
         if prev_weather == None:
