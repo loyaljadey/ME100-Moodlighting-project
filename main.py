@@ -10,8 +10,8 @@ import machine
 from network import WLAN, STA_IF
 import neopixel
 
-RAINY = 1
-SUNNY = 2
+RAINY = 2
+SUNNY = 1
 CLOUDY = 3
 ON = 4
 OFF = 5
@@ -60,9 +60,8 @@ def mqtt_thread():
 
     def sub_cb(topic, msg):
         # extract relevant information from MQTT message
-        message = str(msg)
-        message.replace('b','')
-        message.split(',')
+        message = msg.decode('UTF-8')
+        message = message.split(',')
         state = message[0]
         curr_theme = message[2]
         theme = message[1]
@@ -77,11 +76,11 @@ def mqtt_thread():
         if state == "on":
             # on transition here
             thread_off()
-            thread_starter(ON)
+            thread_starter(ON, None)
         elif state == "off":
             # off transition here
             thread_off()
-            thread_starter(OFF)
+            thread_starter(OFF, None)
         
         # change theme
         if theme == "Rainy":
@@ -108,10 +107,13 @@ def mqtt_thread():
     # lights turning on animation
     thread_starter(ON, None)
 
-    while True:
-        print("waiting for command")
-        client.wait_msg()
-        time.sleep(1)
+    try:
+        while True:
+            print("waiting for command")
+            client.wait_msg()
+            time.sleep(1)
+    except:
+        machine.reset()
 
 
 def LED_thread(theme, pixels, curr_theme):

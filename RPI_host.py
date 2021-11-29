@@ -67,7 +67,7 @@ while True:
 
     # publish if there is changed data
     if prev_mic != mic_data or prev_weather != weather_data:
-        if mic_data == "off" or mic_data == "stay off":
+        if mic_data == "off" or mic_data == "stay off" or mic_data == "stay on":
             mqtt.publish(session, "{},{},{}".format(mic_data, None, prev_weather))
         else:
             mqtt.publish(session, "{},{},{}".format(mic_data, weather_data, prev_weather))
