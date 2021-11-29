@@ -61,6 +61,8 @@ def mqtt_thread():
         curr_theme = msg
         theme = msg
 
+        print(msg)
+
         # start by turning off thread
         global thread
         thread = False

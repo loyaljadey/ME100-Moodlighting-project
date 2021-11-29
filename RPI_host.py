@@ -37,7 +37,12 @@ while True:
     print("analyzing")
     try:
         text = r.recognize_bing(audio, key=bing_key)
-        mic_data = text
+        text = text.replace('.','')
+        text = text.lower()
+        if text == "on" or text == "off" or text == "turn on" or text == "turn off":
+            mic_data = text
+        else:
+            mic_data = None
     except:
         mic_data = None
 
