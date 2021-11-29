@@ -20,8 +20,6 @@ mqtt = paho.Client()
 mqtt.connect(BROKER, port=1883)
 print("Connected!")
 
-r = sr.Recognizer()
-mic = sr.Microphone(device_index=11)
 
 prev_weather = None
 prev_mic = None
@@ -33,6 +31,8 @@ weather_cycle = 0
 store = storage()
 
 def mic_thread(name):
+    r = sr.Recognizer()
+    mic = sr.Microphone(device_index=11)
     while True:
         # data collection: microphones
         # should be on, off, or None output
