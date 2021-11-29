@@ -69,6 +69,9 @@ def MQTT_thread():
             weather_cycle = 10
         weather_cycle -= 1
 
+        if prev_weather == None:
+            prev_weather = weather_data
+
         # publish if there is changed data
         if prev_mic != mic_data:
             mqtt.publish(session, "{},{},{}".format(mic_data, weather_data, prev_weather))
