@@ -37,17 +37,19 @@ def mic_thread(name):
         # data collection: microphones
         # should be on, off, or None output
         with mic as source:
+            print("Recording")
             r.adjust_for_ambient_noise(source)
-            print("recording")
             audio = r.record(source, offset =.5, duration = 3)
+            print("Waiting to send audio")
             store.set_audio(audio)
             
             
 
 def MQTT_thread():
     while True:
-        print("analyzing")
+        print("Waiting to receive audio")
         audio = store.get_audio()
+        print("Analyzing audio")
         try:
             text = r.recognize_bing(audio, key=bing_key)
             text = text.replace('.','')
@@ -70,6 +72,7 @@ def MQTT_thread():
         weather_cycle -= 1
 
         # publish if there is changed data
+        print("Publishing to MQTT")
         if prev_mic != mic_data or prev_weather != weather_data:
             mqtt.publish(session, "{},{},{}".format(mic_data, weather_data, prev_weather))
         else:
