@@ -48,11 +48,11 @@ class LED_control:
         pixels = self.pixels
         #turn on all the lights for the sun
 
-        for i in sun_pixels:
-            #orange red light for the sun
-            pixels.__setitem__(i, ORANGE_RED)
-        pixels.write()
-        time.sleep(0.25)
+        # for i in sun_pixels:
+        #     #orange red light for the sun
+        #     pixels.__setitem__(i, ORANGE_RED)
+        # pixels.write()
+        # time.sleep(0.25)
             
         #blink odd and evens on and off
         #alternating
