@@ -46,12 +46,11 @@ def MQTT_thread():
 
     while True:
         audio = store.get_audio()
-        print("Analyzing audio")
         try:
             text = r.recognize_bing(audio, key=bing_key)
             text = text.replace('.','')
             text = text.lower()
-            print(text)
+            print("identified" + text)
             if text == "on" or text == "turn on":
                 mic_data = "on"
             elif text == "off" or text == "turn off":
@@ -70,7 +69,6 @@ def MQTT_thread():
         weather_cycle -= 1
 
         # publish if there is changed data
-        print("Publishing to MQTT")
         if prev_mic != mic_data or prev_weather != weather_data:
             mqtt.publish(session, "{},{},{}".format(mic_data, weather_data, prev_weather))
         else:
