@@ -58,6 +58,7 @@ def MQTT_thread():
             else:
                 mic_data = None
         except:
+            print("identified none")
             mic_data = None
 
 
