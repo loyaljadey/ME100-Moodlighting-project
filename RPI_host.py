@@ -33,7 +33,7 @@ def mic_thread(name):
         with mic as source:
             print("Recording")
             r.adjust_for_ambient_noise(source)
-            audio = r.record(source, offset =.5, duration = 1)
+            audio = r.record(source, offset =.1, duration = 1)
             store.set_audio(audio)
             
             
