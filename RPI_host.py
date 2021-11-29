@@ -51,7 +51,9 @@ def MQTT_thread():
             text = text.replace('.','')
             text = text.lower()
             print("identified " + text)
-            if "on" in text:
+            if "on" in text and "off" in text:
+                mic_data = None
+            elif "on" in text:
                 mic_data = "on"
             elif "off" in text:
                 mic_data = "off"

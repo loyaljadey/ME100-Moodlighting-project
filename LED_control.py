@@ -241,6 +241,15 @@ class LED_control:
         return True
 
     def play_theme(self):
+        if self.state != None:
+            if self.state_change:
+                print("LED Thread: Changing state")
+                if self.state == "on":
+                    self.on_transition()
+                else:
+                    self.off_transition()
+                self.state_change = False
+                
         if self.theme != None and self.state != "off":
             print("LED Thread: Playing theme")
             if self.curr_theme != self.theme:
@@ -253,14 +262,6 @@ class LED_control:
             elif self.theme == "Cloudy":
                 return self.cloudy_theme()
 
-        if self.state != None:
-            if self.state_change:
-                print("LED Thread: Changing state")
-                if self.state == "on":
-                    self.on_transition()
-                else:
-                    self.off_transition()
-                self.state_change = False
 
     def update_theme(self, theme, curr_theme):
         self.theme = theme
