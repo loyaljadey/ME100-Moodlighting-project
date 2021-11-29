@@ -43,7 +43,8 @@ def MQTT_thread():
     weather_cycle = 0
     prev_weather = None
     prev_mic = None
-    
+    r = sr.Recognizer()
+
     while True:
         print("Waiting to receive audio")
         audio = store.get_audio()
