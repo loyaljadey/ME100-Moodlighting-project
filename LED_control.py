@@ -71,26 +71,26 @@ class LED_control:
             #orange red light for the sun
             pixels.__setitem__(i, ORANGE_RED)
         pixels.write()
-        time.sleep(0.5)
+        time.sleep(1)
         
         #turn odds off
         for i in odds:
             pixels.__setitem__(i, NO_COLOR)
         pixels.write()
-        time.sleep(0.5)
+        time.sleep(0.25)
 
         #turn evens on
         for i in evens:
             #orange red light for the sun
             pixels.__setitem__(i, ORANGE_RED)
         pixels.write()
-        time.sleep(0.5)
+        time.sleep(1)
 
         #turn evens off
         for i in evens:
             pixels.__setitem__(i, NO_COLOR)
         pixels.write()
-        time.sleep(0.5)
+        time.sleep(0.25)
 
         return False
 
