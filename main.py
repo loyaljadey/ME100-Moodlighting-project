@@ -1,7 +1,6 @@
 # @author Xavier Barneclo
 # RPI to ESP32 communication, this is the ESP32 recieving
 
-from mqttclient import MQTTClient
 import _thread
 from LED_control import LED_control
 import time
@@ -34,10 +33,14 @@ def mqtt_thread():
 
         _thread.start_new_thread(LED_thread, (theme, pixels, curr_theme))
 
+    def thread_off():
+        global thread
+        thread = False
+
     wlan = WLAN(STA_IF)
     wlan.active(True)
 
-    wlan.connect('Weefee', 'barnacles')
+    wlan.connect('NETGEAR78X', 'jmacxb301324')
 
     tries = 0
     while not wlan.isconnected() and tries < 10:
@@ -57,32 +60,40 @@ def mqtt_thread():
 
     def sub_cb(topic, msg):
         # extract relevant information from MQTT message
-        state = msg
-        curr_theme = msg
-        theme = msg
+        message = str(msg)
+        message.replace('b','')
+        message.split(',')
+        state = message[0]
+        curr_theme = message[2]
+        theme = message[1]
 
-        print(msg)
+        print(message)
+        print(state)
+        print(theme)
+        print(curr_theme)
 
-        # start by turning off thread
-        global thread
-        thread = False
 
         # change state
         if state == "on":
             # on transition here
+            thread_off()
             thread_starter(ON)
         elif state == "off":
             # off transition here
+            thread_off()
             thread_starter(OFF)
         
         # change theme
         if theme == "Rainy":
+            thread_off()
             thread_starter(TRANS, curr_theme)
             thread_starter(RAINY, None)
         elif theme == "Sunny":
+            thread_off()
             thread_starter(TRANS, curr_theme)
             thread_starter(SUNNY, None)
         elif theme == "Cloudy":
+            thread_off()
             thread_starter(TRANS, curr_theme)
             thread_starter(CLOUDY, None)
 
@@ -95,9 +106,10 @@ def mqtt_thread():
 
 
     # lights turning on animation
-    thread_starter(ON)
+    thread_starter(ON, None)
 
     while True:
+        print("waiting for command")
         client.wait_msg()
         time.sleep(1)
 
@@ -109,6 +121,7 @@ def LED_thread(theme, pixels, curr_theme):
     out = None
     while thread and not out:
         out = LED.play_theme(theme, curr_theme)
+    print("thread killed")
     _thread.exit()
 
 

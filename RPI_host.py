@@ -25,6 +25,7 @@ prev_weather = None
 prev_mic = None
 
 bing_key = '6267bba0804e4750a10c71224de92fad'
+weather_cycle = 0
 
 while True:
     # data collection: microphones
@@ -56,8 +57,12 @@ while True:
 
 
     # data collection: weather API
-    weather = Weather_API()
-    weather_data = weather.get_theme()
+    if weather_cycle == 0:
+        weather = Weather_API()
+        weather_data = weather.get_theme()
+        weather_cycle = 10
+    weather_cycle -= 1
+
 
 
     # publish if there is changed data
@@ -68,3 +73,5 @@ while True:
             mqtt.publish(session, "{},{},{}".format(mic_data, weather_data, prev_weather))
         prev_mic = mic_data
         prev_weather = weather_data
+    else:
+        mqtt.publish(session, "{},{},{}".format(None, None, None))
