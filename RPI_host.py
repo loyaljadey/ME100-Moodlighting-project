@@ -20,10 +20,6 @@ mqtt = paho.Client()
 mqtt.connect(BROKER, port=1883)
 print("Connected!")
 
-
-prev_weather = None
-prev_mic = None
-
 bing_key = '6267bba0804e4750a10c71224de92fad'
 
 store = storage()
@@ -45,6 +41,9 @@ def mic_thread(name):
 
 def MQTT_thread():
     weather_cycle = 0
+    prev_weather = None
+    prev_mic = None
+    
     while True:
         print("Waiting to receive audio")
         audio = store.get_audio()
