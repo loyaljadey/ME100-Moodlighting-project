@@ -187,7 +187,12 @@ class LED_control:
             for j in range(len(pixels)):
                 pixels.__setitem__(j,(i,i,i))
             pixels.write()
-        return True
+            
+        for i in range(len(pixels)):
+            pixels.__setitem__(i,(0,0,0))
+        pixels.write()
+
+        
 
     def off_transition(self):
         print("Turning off")
