@@ -13,30 +13,19 @@ import neopixel
 RAINY = 2
 SUNNY = 1
 CLOUDY = 3
-ON = 4
-OFF = 5
-TRANS = 6
 
 pin = 27
 LED_count = 83
 
 
+term = True
+pixels = neopixel.NeoPixel(machine.Pin(pin), LED_count)
+
+LED = LED_control(pixels)
+
 
 def mqtt_thread():
-    # create pixels object for continuous use between threads
-    pixels = neopixel.NeoPixel(machine.Pin(pin), LED_count)
-
     # helper function
-    def thread_starter(theme, curr_theme):
-        global thread
-        thread = True
-
-        _thread.start_new_thread(LED_thread, (theme, pixels, curr_theme))
-
-    def thread_off():
-        global thread
-        thread = False
-
     wlan = WLAN(STA_IF)
     wlan.active(True)
 
@@ -73,28 +62,17 @@ def mqtt_thread():
 
 
         # change state
-        if state == "on":
+        if state == "on" or state == "off":
             # on transition here
-            thread_off()
-            thread_starter(ON, None)
-        elif state == "off":
-            # off transition here
-            thread_off()
-            thread_starter(OFF, None)
+            LED.theme_control(state, None, 3)
         
         # change theme
         if theme == "Rainy":
-            thread_off()
-            thread_starter(TRANS, curr_theme)
-            thread_starter(RAINY, None)
+            LED.theme_control(RAINY, curr_theme, 2)
         elif theme == "Sunny":
-            thread_off()
-            thread_starter(TRANS, curr_theme)
-            thread_starter(SUNNY, None)
+            LED.theme_control(SUNNY, curr_theme, 2)
         elif theme == "Cloudy":
-            thread_off()
-            thread_starter(TRANS, curr_theme)
-            thread_starter(CLOUDY, None)
+            LED.theme_control(CLOUDY, curr_theme, 2)
 
 
     client = MQTTClient(client_id, mqtt_server)
@@ -105,29 +83,23 @@ def mqtt_thread():
 
 
     # lights turning on animation
-    thread_starter(ON, None)
+    print("Turning LEDs on")
+    LED.theme_control("on", None, 3)
 
     try:
         while True:
             print("waiting for command")
-            client.wait_msg()
+            client.check_msg()
             time.sleep(1)
     except:
         machine.reset()
 
 
-def LED_thread(theme, pixels, curr_theme):
-    global thread
-    LED = LED_control(pixels)
+def LED_thread():
+    while True:
+        LED.theme_control(None, None, 1)
 
-    out = None
-    while thread and not out:
-        out = LED.play_theme(theme, curr_theme)
-    print("thread killed")
-    _thread.exit()
-
-
-_thread.start_new_thread(mqtt_thread,())
-
-while True:
-    pass
+print("Starting MQTT Thread")
+_thread.start_new_thread(mqtt_thread, ())
+print("Starting LED control")
+LED_thread()

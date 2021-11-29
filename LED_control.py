@@ -1,8 +1,7 @@
 # @author Xavier Barneclo, Michael Jia
 # LED control class
 
-import machine
-import neopixel
+import _thread
 import math
 import time
 
@@ -40,9 +39,13 @@ class LED_control:
     def __init__(self,p):
         self.pixels = p
         self.time_interval = self.rain_helper(len(rain_pixels))
+        self.lock = _thread.allocate_lock()
+        self.state = None
+        self.theme = None
        
 
     def sunny_theme(self):
+        print("Playing sunny")
         pixels = self.pixels
         #turn on all the lights for the sun
 
@@ -112,6 +115,7 @@ class LED_control:
         return deltaT
 
     def rainy_theme(self, timeofday, speed):
+        print("Playing rainy")
         pixels = self.pixels
         timeInterval = self.time_interval
         if(speed == "slow" or speed == "Slow"):
@@ -153,6 +157,7 @@ class LED_control:
         return False
 
     def cloudy_theme(self):
+        print("Playing cloudy")
         pixels = self.pixels
         #shift its current color down an led every 3 leds like a wave
         for i in range(0, len(cloud_pixels), 3):
@@ -176,6 +181,7 @@ class LED_control:
         return False
 
     def on_transition(self):
+        print("Turning on")
         pixels = self.pixels
         for i in range(0,260,5):
             for j in range(len(pixels)):
@@ -184,6 +190,7 @@ class LED_control:
         return True
 
     def off_transition(self):
+        print("Turning off")
         pixels = self.pixels
         for i in range(255,-5,-5):
             for j in range(len(pixels)):
@@ -192,6 +199,7 @@ class LED_control:
         return True
     
     def theme_transition(self, curr_theme):
+        print("Transitioning theme")
         pixels = self.pixels
         if(curr_theme == "Sunny"):
             for i in range(3):
@@ -228,16 +236,54 @@ class LED_control:
             time.sleep(0.25)
         return True
 
-    def play_theme(self, theme, curr_theme):
-        if theme == 1:
-            return self.sunny_theme()
-        elif theme == 2:
-            return self.rainy_theme("day","slow")
-        elif theme == 3:
-            return self.cloudy_theme()
-        elif theme == 4:
-            return self.on_transition()
-        elif theme == 5:
-            return self.off_transition()
-        else:
-            return self.theme_transition(curr_theme)
+    def play_theme(self):
+        if self.theme != None and self.state != "off" and not self.state_change:
+            print("LED Thread: Playing theme")
+            if self.theme_change and self.curr_theme != self.theme and self.curr_theme != None:
+                self.theme_transition(self.curr_theme)
+                self.theme_change = False
+            elif self.theme_change:
+                self.theme_change = False
+
+            if self.theme == 1:
+                return self.sunny_theme()
+            elif self.theme == 2:
+                return self.rainy_theme("day","slow")
+            elif self.theme == 3:
+                return self.cloudy_theme()
+
+        if self.state != None:
+            if self.state_change:
+                print("LED Thread: Changing state")
+                if self.state == "on":
+                    self.on_transition()
+                else:
+                    self.off_transition()
+                self.state_change = False
+
+
+    def update_theme(self, theme, curr_theme):
+        self.theme = theme
+        self.curr_theme = curr_theme
+        self.theme_change = True
+
+
+    def update_state(self, state):
+        if state == "off" and self.state != "off":
+            print("Internal state off")
+            self.state = "off"
+            self.state_change = True
+        elif state == "on" and self.state != "on":
+            print("Internal state on")
+            self.state = "on"
+            self.state_change = True
+
+
+    def theme_control(self, theme, curr_theme, type):
+        with self.lock:
+            if type == 1:
+                self.play_theme()
+            elif type == 2:
+                self.update_theme(theme, curr_theme)
+            elif type == 3:
+                self.update_state(theme)

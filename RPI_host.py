@@ -5,6 +5,8 @@ import paho.mqtt.client as paho
 from Weather_API import Weather_API
 import speech_recognition as sr
 import time
+import threading
+from Audio_store import storage
 
 
 # initalize session information
@@ -27,51 +29,56 @@ prev_mic = None
 bing_key = '6267bba0804e4750a10c71224de92fad'
 weather_cycle = 0
 
-while True:
-    # data collection: microphones
-    # should be on, off, or None output
-    with mic as source:
-        r.adjust_for_ambient_noise(source)
-        print("recording")
-        audio = r.record(source, offset =.5, duration = 3)
 
-    print("analyzing")
-    try:
-        text = r.recognize_bing(audio, key=bing_key)
-        text = text.replace('.','')
-        text = text.lower()
-        if text == "on" or text == "turn on":
-            mic_data = "on"
-        elif text == "off" or text == "turn off":
-            mic_data = "off"
-        else:
+store = storage()
+
+def mic_thread(name):
+    while True:
+        # data collection: microphones
+        # should be on, off, or None output
+        with mic as source:
+            r.adjust_for_ambient_noise(source)
+            print("recording")
+            audio = r.record(source, offset =.5, duration = 3)
+            store.set_audio(audio)
+            
+            
+
+def MQTT_thread():
+    while True:
+        print("analyzing")
+        audio = store.get_audio()
+        try:
+            text = r.recognize_bing(audio, key=bing_key)
+            text = text.replace('.','')
+            text = text.lower()
+            if text == "on" or text == "turn on":
+                mic_data = "on"
+            elif text == "off" or text == "turn off":
+                mic_data = "off"
+            else:
+                mic_data = None
+        except:
             mic_data = None
-    except:
-        mic_data = None
-
-    if (mic_data == None or mic_data == "off") and (prev_mic == "off" or prev_mic == "stay off"):
-        mic_data = "stay off"
-
-    if (mic_data == None or mic_data == "on") and (prev_mic == "on" or prev_mic == "stay on"):
-        mic_data = "stay on"
 
 
-    # data collection: weather API
-    if weather_cycle == 0:
-        weather = Weather_API()
-        weather_data = weather.get_theme()
-        weather_cycle = 10
-    weather_cycle -= 1
+        # data collection: weather API
+        if weather_cycle == 0:
+            weather = Weather_API()
+            weather_data = weather.get_theme()
+            weather_cycle = 10
+        weather_cycle -= 1
 
-
-
-    # publish if there is changed data
-    if prev_mic != mic_data or prev_weather != weather_data:
-        if mic_data == "off" or mic_data == "stay off" or mic_data == "stay on":
-            mqtt.publish(session, "{},{},{}".format(mic_data, None, prev_weather))
-        else:
+        # publish if there is changed data
+        if prev_mic != mic_data or prev_weather != weather_data:
             mqtt.publish(session, "{},{},{}".format(mic_data, weather_data, prev_weather))
+        else:
+            mqtt.publish(session, "{},{},{}".format(None, None, None))
+
         prev_mic = mic_data
         prev_weather = weather_data
-    else:
-        mqtt.publish(session, "{},{},{}".format(None, None, None))
+
+mic = threading.Thread(target=mic_thread, args=(1,))
+mic.start()
+
+MQTT_thread()
