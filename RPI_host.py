@@ -39,8 +39,10 @@ while True:
         text = r.recognize_bing(audio, key=bing_key)
         text = text.replace('.','')
         text = text.lower()
-        if text == "on" or text == "off" or text == "turn on" or text == "turn off":
-            mic_data = text
+        if text == "on" or text == "turn on":
+            mic_data = "on"
+        elif text == "off" or text == "turn off":
+            mic_data = "off"
         else:
             mic_data = None
     except:
