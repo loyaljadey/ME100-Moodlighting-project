@@ -248,11 +248,11 @@ class LED_control:
                 print(self.theme)
                 self.theme_transition(self.curr_theme)
 
-            if self.theme == 1:
+            if self.theme == "Sunny":
                 return self.sunny_theme()
-            elif self.theme == 2:
+            elif self.theme == "Rainy":
                 return self.rainy_theme("day","slow")
-            elif self.theme == 3:
+            elif self.theme == "Cloudy":
                 return self.cloudy_theme()
 
         if self.state != None:
