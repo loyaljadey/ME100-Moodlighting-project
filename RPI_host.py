@@ -33,7 +33,7 @@ def mic_thread(name):
         with mic as source:
             print("Recording")
             r.adjust_for_ambient_noise(source)
-            audio = r.record(source, offset =.5, duration = 3)
+            audio = r.record(source, offset =.5, duration = 1)
             store.set_audio(audio)
             
             
@@ -50,7 +50,7 @@ def MQTT_thread():
             text = r.recognize_bing(audio, key=bing_key)
             text = text.replace('.','')
             text = text.lower()
-            print("identified" + text)
+            print("identified " + text)
             if text == "on" or text == "turn on":
                 mic_data = "on"
             elif text == "off" or text == "turn off":
