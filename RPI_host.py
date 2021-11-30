@@ -7,6 +7,7 @@ import speech_recognition as sr
 import time
 import threading
 from Audio_store import storage
+import pyaudio
 
 time.sleep(15)
 
@@ -26,8 +27,14 @@ bing_key = '6267bba0804e4750a10c71224de92fad'
 store = storage()
 
 def mic_thread(name):
+    p = pyaudio.PyAudio()
+    for i in range(p.get_device_count()):
+        dev = p.get_device_info_by_index(i)
+        if dev["name"] == 'dmic_sv':
+            ind = dev["index"]
+
     r = sr.Recognizer()
-    mic = sr.Microphone(device_index=10)
+    mic = sr.Microphone(device_index=ind)
     while True:
         # data collection: microphones
         # should be on, off, or None output
