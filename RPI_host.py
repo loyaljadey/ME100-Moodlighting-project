@@ -14,7 +14,7 @@ time.sleep(15)
 # initalize session information
 session = "xbarneclo/RPI2ESP/state"
 BROKER = "broker.mqttdashboard.com"
-qos = 0
+qos = 2
 
 # connect to MQTT broker
 print("Connecting to MQTT broker", BROKER, "...", end="")
@@ -81,6 +81,7 @@ def MQTT_thread():
 
         if prev_weather == None:
             prev_weather = weather_data
+            mic_data = "on"
 
         # publish if there is changed data
         if prev_mic != mic_data:

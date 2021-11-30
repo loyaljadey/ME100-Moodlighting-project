@@ -69,12 +69,6 @@ def mqtt_thread():
         
         # change theme
         LED.theme_control(theme, curr_theme, 2)
-        # if theme == "Rainy":
-        #     LED.theme_control(RAINY, curr_theme, 2)
-        # elif theme == "Sunny":
-        #     LED.theme_control(SUNNY, curr_theme, 2)
-        # elif theme == "Cloudy":
-        #     LED.theme_control(CLOUDY, curr_theme, 2)
 
 
     client = MQTTClient(client_id, mqtt_server)
@@ -82,11 +76,6 @@ def mqtt_thread():
     client.connect()
     client.subscribe(topic_sub)
     print('Connected to %s MQTT broker, subscribed to %s topic' % (mqtt_server, topic_sub))
-
-
-    # lights turning on animation
-    print("Turning LEDs on")
-    LED.theme_control("on", None, 3)
 
     try:
         while True:
