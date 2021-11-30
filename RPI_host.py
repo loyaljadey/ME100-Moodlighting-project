@@ -25,7 +25,7 @@ store = storage()
 
 def mic_thread(name):
     r = sr.Recognizer()
-    mic = sr.Microphone(device_index=11)
+    mic = sr.Microphone(device_index=10)
     while True:
         # data collection: microphones
         # should be on, off, or None output
