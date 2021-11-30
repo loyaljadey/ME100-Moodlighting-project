@@ -8,6 +8,8 @@ import time
 import threading
 from Audio_store import storage
 
+time.sleep(15)
+
 # initalize session information
 session = "xbarneclo/RPI2ESP/state"
 BROKER = "broker.mqttdashboard.com"
