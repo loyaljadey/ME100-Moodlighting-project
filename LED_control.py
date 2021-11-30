@@ -28,7 +28,7 @@ ORANGE_RED = (255,70,0)
 #for later use when in the assembly, we know where each led is exactly going to be
 #we can replace the start and end with the exact places of the pixels
 sun_pixels = [0,1,2,3,4,5,6,7]
-cloud_pixels = [8,9,10,11,12,13,14,15,18,21,28,32,35,40,48,51,56,59,64,65,70,73,74,75,76,77,78,79,80,81,82,83]
+cloud_pixels = [8,9,10,11,12,13,14,15,18,21,28,32,35,40,48,51,56,59,64,65,70,73,74,75,76,77,78,79,80,81,82]
 rain_pixels =[16,17,19,20,22,23,24,25,26,27,29,30,31,33,34,26,37,38,39,41,42,43,44,45,46,47,49,50,52,53,54,55,57,58,60,61,62,63,66,67,68,69,71,72] 
 
 whiteLED1 = [DIMMER_WHITE4,DIMMER_WHITE2,WHITE]
@@ -38,7 +38,6 @@ whiteLED3 = [DIMMER_WHITE2,DIMMER_WHITE4,WHITE]
 class LED_control:
     def __init__(self,p):
         self.pixels = p
-        self.time_interval = self.rain_helper(len(rain_pixels))
         self.lock = _thread.allocate_lock()
         self.state = None
         self.theme = None
@@ -118,14 +117,14 @@ class LED_control:
     def rainy_theme(self, timeofday, speed):
         print("Playing rainy")
         pixels = self.pixels
-        timeInterval = self.time_interval
+        time_interval = self.rain_helper(len(rain_pixels))
         if(speed == "slow" or speed == "Slow"):
             if(timeofday == "day" or timeofday == "Day"):
                 for i in rain_pixels:
                     #blue light for the rain drop
                     pixels.__setitem__(i, BLUE)
                     pixels.write()
-                    time.sleep(timeInterval[i]*20)
+                    time.sleep(time_interval[i]*20)
                     pixels.__setitem__(i, NO_COLOR)
                     pixels.write()
             else:
@@ -133,7 +132,7 @@ class LED_control:
                     #blue light for the rain drop
                     pixels.__setitem__(i, DIMMER_BLUE)
                     pixels.write()
-                    time.sleep(timeInterval[i]*20)
+                    time.sleep(time_interval[i]*20)
                     pixels.__setitem__(i, NO_COLOR)
                     pixels.write()
         else:
@@ -142,7 +141,7 @@ class LED_control:
                     #blue light for the rain drop
                     pixels.__setitem__(i, BLUE)
                     pixels.write()
-                    time.sleep(timeInterval[i])
+                    time.sleep(time_interval[i])
                     pixels.__setitem__(i, NO_COLOR)
                     pixels.write()
             else:
@@ -150,7 +149,7 @@ class LED_control:
                     #blue light for the rain drop
                     pixels.__setitem__(i, DIMMER_BLUE)
                     pixels.write()
-                    time.sleep(timeInterval[i])
+                    time.sleep(time_interval[i])
                     pixels.__setitem__(i, NO_COLOR)
                     pixels.write()
 
@@ -249,7 +248,7 @@ class LED_control:
                 else:
                     self.off_transition()
                 self.state_change = False
-                
+
         if self.theme != None and self.state != "off":
             print("LED Thread: Playing theme")
             if self.curr_theme != self.theme:
