@@ -7,7 +7,10 @@ import speech_recognition as sr
 import time
 import threading
 from Audio_store import storage
+import subprocess
 
+# configure sound
+subprocess.call('sudo cp /home/pi/archive.txt /home/pi/.asoundrc', shell=True)
 
 # initalize session information
 session = "xbarneclo/RPI2ESP/state"
