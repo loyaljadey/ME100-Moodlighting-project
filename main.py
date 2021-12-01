@@ -65,6 +65,7 @@ def mqtt_thread():
         # change state
         if state == "on" or state == "off":
             # on transition here
+            LED.theme_control(theme, curr_theme, 2)
             LED.theme_control(state, None, 3)
         
         # change theme
