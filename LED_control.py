@@ -39,8 +39,9 @@ class LED_control:
     def __init__(self,p):
         self.pixels = p
         self.lock = _thread.allocate_lock()
-        self.state = None
+        self.state = "off"
         self.theme = None
+        self.state_change = False
        
     def sunny_theme(self):
         print("Playing sunny")
@@ -110,10 +111,6 @@ class LED_control:
         deltaT = []
         for i in range(len(t)-1):
             deltaT.append(t[i+1]-t[i])
-
-        print(d)
-        print(t)
-        print(deltaT)
 
         return deltaT
 
@@ -225,7 +222,7 @@ class LED_control:
                     pixels.__setitem__(i, WHITE)
                 pixels.write()
                 time.sleep(0.5)
-                for i in sun_pixels:
+                for i in cloud_pixels:
                     pixels.__setitem__(i, NO_COLOR)
                 pixels.write()
                 time.sleep(0.5)
@@ -236,7 +233,7 @@ class LED_control:
                     pixels.__setitem__(i, BLUE)
                 pixels.write()
                 time.sleep(0.5)
-                for i in sun_pixels:
+                for i in rain_pixels:
                     pixels.__setitem__(i, NO_COLOR)
                 pixels.write()
                 time.sleep(0.5)
@@ -255,8 +252,9 @@ class LED_control:
 
         if self.theme != None and self.state != "off":
             print("LED Thread: Playing theme")
-            if self.curr_theme != self.theme:
+            if self.curr_theme != self.theme and self.theme_change:
                 self.theme_transition(self.curr_theme)
+                self.theme_change = False
 
             if self.theme == "Sunny":
                 return self.sunny_theme()
@@ -269,6 +267,7 @@ class LED_control:
     def update_theme(self, theme, curr_theme):
         self.theme = theme
         self.curr_theme = curr_theme
+        self.theme_change = True
 
     def update_state(self, state):
         if state == "off" and self.state != "off":
