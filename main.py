@@ -28,7 +28,8 @@ def mqtt_thread():
     wlan = WLAN(STA_IF)
     wlan.active(True)
 
-    wlan.connect('NETGEAR78X', 'jmacxb301324')
+    wlan.connect('ME100-2.4G', '122Hesse')
+    #wlan.connect('NETGEAR78X', 'jmacxb301324')
     #wlan.connect('room4s', 'SphstakesonBerk1')
 
     tries = 0
