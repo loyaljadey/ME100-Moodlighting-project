@@ -28,8 +28,8 @@ ORANGE_RED = (255,70,0)
 #for later use when in the assembly, we know where each led is exactly going to be
 #we can replace the start and end with the exact places of the pixels
 sun_pixels = [0,1,2,3,4,5,6,7]
-cloud_pixels = [8,9,10,11,12,13,14,15,18,21,28,32,35,40,48,51,56,59,64,65,70,73,74,75,76,77,78,79,80,81,82]
-rain_pixels =[16,17,19,20,22,23,24,25,26,27,29,30,31,33,34,26,37,38,39,41,42,43,44,45,46,47,49,50,52,53,54,55,57,58,60,61,62,63,66,67,68,69,71,72] 
+cloud_pixels = [8,9,10,11,12,13,14,15,16,19,24,31,34,41,46,55,58,63,70,73,74,75,76,77,78,79,80,81,82]
+rain_pixels =[17,18,20,21,22,23,25,26,27,28,29,30,32,33,35,36,37,38,39,40,42,43,44,45,47,48,49,50,51,52,53,54,56,57,59,60,61,62,64,65,66,67,68,69,71,72] 
 
 whiteLED1 = [DIMMER_WHITE4,DIMMER_WHITE2,WHITE]
 whiteLED2 = [WHITE,DIMMER_WHITE4,DIMMER_WHITE2]
