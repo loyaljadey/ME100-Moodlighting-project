@@ -111,46 +111,50 @@ class LED_control:
         for i in range(len(t)-1):
             deltaT.append(t[i+1]-t[i])
 
+        print(d)
+        print(t)
+        print(deltaT)
 
         return deltaT
 
     def rainy_theme(self, timeofday, speed):
         print("Playing rainy")
         pixels = self.pixels
+        print(len(rain_pixels))
         time_interval = self.rain_helper(len(rain_pixels))
         if(speed == "slow" or speed == "Slow"):
             if(timeofday == "day" or timeofday == "Day"):
-                for i in rain_pixels:
+                for i in len(rain_pixels):
                     #blue light for the rain drop
-                    pixels.__setitem__(i, BLUE)
+                    pixels.__setitem__(rain_pixels[i], BLUE)
                     pixels.write()
                     time.sleep(time_interval[i]*20)
-                    pixels.__setitem__(i, NO_COLOR)
+                    pixels.__setitem__(rain_pixels[i], NO_COLOR)
                     pixels.write()
             else:
-                for i in rain_pixels:
+                for i in len(rain_pixels):
                     #blue light for the rain drop
-                    pixels.__setitem__(i, DIMMER_BLUE)
+                    pixels.__setitem__(rain_pixels[i], DIMMER_BLUE)
                     pixels.write()
                     time.sleep(time_interval[i]*20)
-                    pixels.__setitem__(i, NO_COLOR)
+                    pixels.__setitem__(rain_pixels[i], NO_COLOR)
                     pixels.write()
         else:
             if(timeofday == "day" or timeofday == "Day"):
-                for i in rain_pixels:
+                for i in len(rain_pixels):
                     #blue light for the rain drop
-                    pixels.__setitem__(i, BLUE)
+                    pixels.__setitem__(rain_pixels[i], BLUE)
                     pixels.write()
                     time.sleep(time_interval[i])
-                    pixels.__setitem__(i, NO_COLOR)
+                    pixels.__setitem__(rain_pixels[i], NO_COLOR)
                     pixels.write()
             else:
-                for i in rain_pixels:
+                for i in len(rain_pixels):
                     #blue light for the rain drop
-                    pixels.__setitem__(i, DIMMER_BLUE)
+                    pixels.__setitem__(rain_pixels[i], DIMMER_BLUE)
                     pixels.write()
                     time.sleep(time_interval[i])
-                    pixels.__setitem__(i, NO_COLOR)
+                    pixels.__setitem__(rain_pixels[i], NO_COLOR)
                     pixels.write()
 
         time.sleep(1)
