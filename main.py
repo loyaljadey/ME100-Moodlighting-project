@@ -68,7 +68,8 @@ def mqtt_thread():
             LED.theme_control(state, None, 3)
         
         # change theme
-        LED.theme_control(theme, curr_theme, 2)
+        if theme != curr_theme:
+            LED.theme_control(theme, curr_theme, 2)
 
 
     client = MQTTClient(client_id, mqtt_server)
@@ -81,7 +82,7 @@ def mqtt_thread():
         while True:
             print("waiting for command")
             client.check_msg()
-            time.sleep(1)
+            time.sleep(.1)
     except:
         machine.reset()
 
