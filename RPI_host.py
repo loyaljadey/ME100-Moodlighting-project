@@ -66,6 +66,12 @@ def MQTT_thread():
             elif "off" in text:
                 mic_data = "off"
             else:
+                if "rainy" in text:
+                    weather_data = "Rainy"
+                elif "sunny" in text:
+                    weather_data = "Sunny"
+                elif "cloudy" in text:
+                    weather_data = "Cloudy"
                 mic_data = None
         except:
             print("identified none")

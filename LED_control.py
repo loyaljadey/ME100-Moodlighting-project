@@ -117,7 +117,6 @@ class LED_control:
     def rainy_theme(self, timeofday, speed):
         print("Playing rainy")
         pixels = self.pixels
-        print(len(rain_pixels))
         time_interval = self.rain_helper(len(rain_pixels))
         if(speed == "slow" or speed == "Slow"):
             if(timeofday == "day" or timeofday == "Day"):
@@ -161,19 +160,19 @@ class LED_control:
         print("Playing cloudy")
         pixels = self.pixels
         #shift its current color down an led every 3 leds like a wave
-        for i in range(0, len(cloud_pixels), 3):
+        for i in range(0, len(cloud_pixels) - 3, 3):
             for j in range(0,3):
                 pixels.__setitem__(cloud_pixels[i+j], whiteLED1[j])
                 pixels.write()
             time.sleep(0.125)
         time.sleep(0.5)
-        for i in range(0, len(cloud_pixels), 3):
+        for i in range(0, len(cloud_pixels) - 3, 3):
             for j in range(0,3):
                 pixels.__setitem__(cloud_pixels[i+j], whiteLED2[j])
                 pixels.write()
             time.sleep(0.125)
         time.sleep(0.5)
-        for i in range(0, len(cloud_pixels), 3):
+        for i in range(0, len(cloud_pixels) - 3, 3):
             for j in range(0,3):
                 pixels.__setitem__(cloud_pixels[i+j], whiteLED3[j])
                 pixels.write()
