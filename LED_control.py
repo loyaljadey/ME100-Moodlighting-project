@@ -124,7 +124,7 @@ class LED_control:
         time_interval = self.rain_helper(len(rain_pixels))
         if(speed == "slow" or speed == "Slow"):
             if(timeofday == "day" or timeofday == "Day"):
-                for i in len(rain_pixels):
+                for i in range(len(rain_pixels)):
                     #blue light for the rain drop
                     pixels.__setitem__(rain_pixels[i], BLUE)
                     pixels.write()
@@ -132,7 +132,7 @@ class LED_control:
                     pixels.__setitem__(rain_pixels[i], NO_COLOR)
                     pixels.write()
             else:
-                for i in len(rain_pixels):
+                for i in range(len(rain_pixels)):
                     #blue light for the rain drop
                     pixels.__setitem__(rain_pixels[i], DIMMER_BLUE)
                     pixels.write()
@@ -141,7 +141,7 @@ class LED_control:
                     pixels.write()
         else:
             if(timeofday == "day" or timeofday == "Day"):
-                for i in len(rain_pixels):
+                for i in range(len(rain_pixels)):
                     #blue light for the rain drop
                     pixels.__setitem__(rain_pixels[i], BLUE)
                     pixels.write()
@@ -149,7 +149,7 @@ class LED_control:
                     pixels.__setitem__(rain_pixels[i], NO_COLOR)
                     pixels.write()
             else:
-                for i in len(rain_pixels):
+                for i in range(len(rain_pixels)):
                     #blue light for the rain drop
                     pixels.__setitem__(rain_pixels[i], DIMMER_BLUE)
                     pixels.write()
