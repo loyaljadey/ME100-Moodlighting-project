@@ -226,7 +226,7 @@ class LED_control:
                 pixels.write()
                 time.sleep(0.5)
             time.sleep(0.25)
-        else:
+        elif(curr_theme == "Rainy"):
             for i in range(3):
                 for i in rain_pixels:
                     pixels.__setitem__(i, BLUE)
@@ -237,6 +237,9 @@ class LED_control:
                 pixels.write()
                 time.sleep(0.5)
             time.sleep(0.25)
+        else:
+            return True
+
         return True
 
     def play_theme(self):
@@ -245,6 +248,7 @@ class LED_control:
                 print("LED Thread: Changing state")
                 if self.state == "on":
                     self.on_transition()
+                    self.theme_transition(self.theme)
                 else:
                     self.off_transition()
                 self.state_change = False

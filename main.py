@@ -82,7 +82,7 @@ def mqtt_thread():
         while True:
             print("waiting for command")
             client.check_msg()
-            time.sleep(.1)
+            time.sleep(.25)
     except:
         machine.reset()
 
