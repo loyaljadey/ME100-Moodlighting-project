@@ -41,7 +41,7 @@ def mic_thread(name):
         with mic as source:
             print("Recording")
             r.adjust_for_ambient_noise(source)
-            audio = r.record(source, offset =.1, duration = 1.5)
+            audio = r.record(source, offset =.05, duration = 1.5)
             store.set_audio(audio)
             
             
@@ -91,6 +91,8 @@ def MQTT_thread():
         # publish if there is changed data
         if prev_mic != mic_data or weather_data != prev_weather:
             mqtt.publish(session, "{},{},{}".format(mic_data, weather_data, prev_weather))
+        else:
+            mqtt.publish(session, "{},{},{}".format(None, None, None))
 
         prev_mic = mic_data
         prev_weather = weather_data

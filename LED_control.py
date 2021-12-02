@@ -272,7 +272,7 @@ class LED_control:
         self.curr_theme = curr_theme
         self.theme_change = True
 
-    def update_state(self, state):
+    def update_state(self, state, theme):
         if state == "off" and self.state != "off":
             print("Internal state off")
             self.state = "off"
@@ -281,6 +281,7 @@ class LED_control:
             print("Internal state on")
             self.state = "on"
             self.state_change = True
+            self.update_theme(theme, theme)
 
     def theme_control(self, theme, curr_theme, type):
         with self.lock:
@@ -289,4 +290,4 @@ class LED_control:
             elif type == 2:
                 self.update_theme(theme, curr_theme)
             elif type == 3:
-                self.update_state(theme)
+                self.update_state(theme, curr_theme)
