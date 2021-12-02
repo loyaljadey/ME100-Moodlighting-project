@@ -282,6 +282,9 @@ class LED_control:
             self.state = "on"
             self.state_change = True
             self.update_theme(theme, theme)
+        elif state == "on" and theme != self.theme:
+            self.update_theme(theme, self.theme)
+
 
     def theme_control(self, theme, curr_theme, type):
         with self.lock:
