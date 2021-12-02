@@ -28,8 +28,8 @@ def mqtt_thread():
     wlan = WLAN(STA_IF)
     wlan.active(True)
 
-    wlan.connect('ME100-2.4G', '122Hesse')
-    #wlan.connect('NETGEAR78X', 'jmacxb301324')
+    #wlan.connect('ME100-2.4G', '122Hesse')
+    wlan.connect('NETGEAR78X', 'jmacxb301324')
     #wlan.connect('room4s', 'SphstakesonBerk1')
 
     tries = 0
@@ -65,6 +65,7 @@ def mqtt_thread():
         # change state
         if state == "on" or state == "off":
             # on transition here
+            curr_theme = theme
             LED.theme_control(theme, curr_theme, 2)
             LED.theme_control(state, None, 3)
         
