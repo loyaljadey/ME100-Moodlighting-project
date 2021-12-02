@@ -28,15 +28,21 @@ def mqtt_thread():
     wlan = WLAN(STA_IF)
     wlan.active(True)
 
-    #wlan.connect('ME100-2.4G', '122Hesse')
-    wlan.connect('NETGEAR78X', 'jmacxb301324')
-    #wlan.connect('room4s', 'SphstakesonBerk1')
+    a = wlan.scan()
+
+    wifi_store = [['ME100-2.4G', '122Hesse'],['NETGEAR78X','jmacxb301324'],['room4s', 'SphstakesonBerk1']]
+
+    for i in a:
+        for q in wifi_store:
+            if i[0].decode('UTF-8') == q[0]:
+                wlan.connect(q[0], q[1])
 
     tries = 0
     while not wlan.isconnected() and tries < 10:
         print("Waiting for wlan connection")
         time.sleep(1)
         tries = tries + 1
+
 
     if wlan.isconnected():
         print("WiFi connected at", wlan.ifconfig()[0])
